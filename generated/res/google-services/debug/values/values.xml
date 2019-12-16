@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">277268281599-oqlia77ks2v9gvlrbj3rgbv3n7ta4d3g.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://lifeline-1d37e.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">277268281599</string>
+    <string name="google_api_key" translatable="false">AIzaSyD8uUgDRzAsa9goL0zWfiZczI11t1giz1w</string>
+    <string name="google_app_id" translatable="false">1:277268281599:android:11c4ab023e01af9b59b4ca</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyD8uUgDRzAsa9goL0zWfiZczI11t1giz1w</string>
+    <string name="google_storage_bucket" translatable="false">lifeline-1d37e.appspot.com</string>
+    <string name="project_id" translatable="false">lifeline-1d37e</string>
+</resources>
