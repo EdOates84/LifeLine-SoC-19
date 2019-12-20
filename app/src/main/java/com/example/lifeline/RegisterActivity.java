@@ -107,13 +107,6 @@ public class RegisterActivity extends AppCompatActivity {
                             });
 
 
-//                            String user_id = fAuth.getCurrentUser().getUid();
-//                            DatabaseReference current_user_db = mDatabase.child(user_id);
-//                            current_user_db.child("name").setValue(name);
-//                            current_user_db.child("enrollment_no.").setValue(enrollment_no);
-
-
-
                         }
                         else{
                             Toast.makeText(RegisterActivity.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

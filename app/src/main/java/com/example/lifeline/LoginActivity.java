@@ -50,16 +50,13 @@ public class LoginActivity extends AppCompatActivity {
                final String password = mPassword.getText().toString().trim();
 
                 if(TextUtils.isEmpty(email)){
-//                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-//                    return;
 
                     mEmail.setError("Email is required");
                     return;
                 }
 
                 if(TextUtils.isEmpty(password)){
-//                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-//                    return;
+
                     mPassword.setError("Password is required");
                     return;
                 }
@@ -68,10 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-//                if(password.length() <6) {
-//                    mPassword.setError("Password must be >= 6 characters");
-//                    return;
-//                }
+
                 progressBar.setVisibility(View.VISIBLE);
 
                 // Authenticate the user
@@ -105,13 +99,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-//        mLoginBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v)  {
-//                startActivity(new Intent(getApplicationContext(),HomeActivity.class));
-//
-//            }
-//        });
+
         mCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,13 +107,7 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-//        mCreateBtn.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-//            }
-//
-//        });
+
 
 
     }
