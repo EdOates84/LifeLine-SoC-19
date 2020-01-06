@@ -58,10 +58,12 @@ public class LoginActivity extends AppCompatActivity {
                final String password = mPassword.getText().toString().trim();
 
                 if(TextUtils.isEmpty(email)){
+
                     mEmail.setError("Email is required");
                     return;
                 }
                 if(TextUtils.isEmpty(password)){
+
                     mPassword.setError("Password is required");
                     return;
                 }
@@ -69,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                     mPassword.setError("Password must be >= 6 characters");
                     return;
                 }
+
 
                 progressBar.setVisibility(View.VISIBLE);
 
@@ -111,5 +114,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+
     }
 }
