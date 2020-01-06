@@ -26,11 +26,14 @@ public class LoginActivity extends AppCompatActivity {
     TextView mCreateBtn;
     ProgressBar progressBar;
     FirebaseAuth fAuth;
+    SharedPreferenceConfig preferenceConfig;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2);
+
+        preferenceConfig = new SharedPreferenceConfig(getApplicationContext());
 
         mEmail = findViewById(R.id.Email);
         mPassword = findViewById(R.id.Password);
@@ -39,6 +42,11 @@ public class LoginActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBar);
 
+        if (preferenceConfig.readLoginStatus()){
+            startActivity(new Intent(this,MainActivity.class));
+            finish();
+
+        }
 
 
 
@@ -54,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
                     mEmail.setError("Email is required");
                     return;
                 }
-
                 if(TextUtils.isEmpty(password)){
 
                     mPassword.setError("Password is required");
@@ -77,25 +84,25 @@ public class LoginActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
 
                             Toast.makeText(LoginActivity.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                            preferenceConfig.writeLoginStatus(true);
+                            finish();
                             mLoginBtn.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     startActivity(new Intent(getApplicationContext(),MainActivity.class));
-
+                                    preferenceConfig.writeLoginStatus(true);
+                                    finish();
                                 }
                             });
-
                         }
                         else{
                             Toast.makeText(LoginActivity.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
                         }
-
                     }
                 });
-
-
             }
         });
 
@@ -107,8 +114,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
-
 
     }
 }

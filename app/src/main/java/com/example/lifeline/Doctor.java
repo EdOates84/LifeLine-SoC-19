@@ -1,5 +1,37 @@
 package com.example.lifeline;
 
+
+
+
+public class Doctor {
+
+    public String doc_name;
+    public String doc_graduate;
+    public String doc_profile;
+    public String doc_dpt;
+    public String doc_info;
+
+
+    public Doctor() {
+
+    }
+
+    public Doctor(String doc_name, String doc_graduate, String doc_dpt, String doc_profile, String doc_info) {
+
+        this.doc_name = doc_name;
+        this.doc_graduate = doc_graduate;
+        this.doc_dpt = doc_dpt;
+        this.doc_profile = doc_profile;
+        this.doc_info = doc_info;
+
+    }
+
+    public String getDoc_info() {
+        return doc_info;
+    }
+
+    public void setDoc_info(String doc_info) {
+        this.doc_info = doc_info;
 public class Doctor {
     public int img;
     public String doc_name;
@@ -36,6 +68,15 @@ public class Doctor {
         this.doc_graduate = doc_graduate;
     }
 
+    public String getDoc_profile() {
+        return doc_profile;
+    }
+
+    public void setDoc_profile(String doc_profile) {
+        this.doc_profile = doc_profile;
+    }
+
+
     public String getDoc_dpt() {
         return doc_dpt;
     }
@@ -43,6 +84,11 @@ public class Doctor {
     public void setDoc_dpt(String doc_dpt) {
         this.doc_dpt = doc_dpt;
     }
+}
+
+//
+
+
 
     public String doc_dpt;
 
