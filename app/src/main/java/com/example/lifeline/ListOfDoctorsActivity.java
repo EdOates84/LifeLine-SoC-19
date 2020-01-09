@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 import android.widget.TextView;
+
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -55,7 +56,6 @@ public class ListOfDoctorsActivity extends AppCompatActivity {
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                String doc_info=dataSnapshot.child("doc_info").getValue().toString();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Doctor u = dataSnapshot1.getValue(Doctor.class);
                     list.add(u);

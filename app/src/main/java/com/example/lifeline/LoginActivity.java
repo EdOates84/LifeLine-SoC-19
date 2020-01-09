@@ -5,9 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PatternMatcher;
 import android.text.TextUtils;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class LoginActivity extends AppCompatActivity {
     EditText mEmail,mPassword;
     Button mLoginBtn;
-    TextView mCreateBtn;
+    TextView mCreateBtn, mforgotpassword;
     ProgressBar progressBar;
     FirebaseAuth fAuth;
     SharedPreferenceConfig preferenceConfig;
@@ -35,10 +33,11 @@ public class LoginActivity extends AppCompatActivity {
 
         preferenceConfig = new SharedPreferenceConfig(getApplicationContext());
 
-        mEmail = findViewById(R.id.Email);
+        mEmail = findViewById(R.id.editmail);
         mPassword = findViewById(R.id.Password);
         mLoginBtn = findViewById(R.id.LoginBtn);
         mCreateBtn = findViewById(R.id.createText);
+        mforgotpassword = findViewById(R.id.createText2);
         fAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBar);
 
@@ -58,12 +57,10 @@ public class LoginActivity extends AppCompatActivity {
                final String password = mPassword.getText().toString().trim();
 
                 if(TextUtils.isEmpty(email)){
-
                     mEmail.setError("Email is required");
                     return;
                 }
                 if(TextUtils.isEmpty(password)){
-
                     mPassword.setError("Password is required");
                     return;
                 }
@@ -71,7 +68,6 @@ public class LoginActivity extends AppCompatActivity {
                     mPassword.setError("Password must be >= 6 characters");
                     return;
                 }
-
 
                 progressBar.setVisibility(View.VISIBLE);
 
@@ -92,8 +88,8 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(View v) {
                                     startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                                    preferenceConfig.writeLoginStatus(true);
-                                    finish();
+//                                    preferenceConfig.writeLoginStatus(true);
+//                                    finish();
                                 }
                             });
                         }
@@ -101,6 +97,26 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
                         }
+                    }
+                });
+            }
+        });
+
+        mforgotpassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = mEmail.getText().toString().trim();
+                fAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(LoginActivity.this, "Check email to reset your password!", Toast.LENGTH_SHORT).show();
+                            
+                        }
+                        else {
+                            Toast.makeText(LoginActivity.this, "Fail to send reset password email! Please fill correct email", Toast.LENGTH_SHORT).show();
+                        }
+                        
                     }
                 });
             }
@@ -114,6 +130,5 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
     }
 }

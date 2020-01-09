@@ -1,5 +1,6 @@
 package com.example.lifeline;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,10 +17,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.Toast;
 import android.widget.TextView;
 
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,10 +41,13 @@ public class tokenStatusFragment extends AppCompatActivity {
     private TextView doctor, token;
 
     private DatabaseReference mDatabase;
-    private CardView cardView;
     private RecyclerView recyclerView;
     private ArrayList<Token> list;
     private Token_Adapter adapter;
+    FirebaseAuth fAuth;
+    FirebaseUser current_user;
+    private DatabaseReference fDatabase;
+    ProgressBar progressBar;
 
 
     @Override
@@ -47,24 +55,41 @@ public class tokenStatusFragment extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_token_status2);
 
+        fAuth = FirebaseAuth.getInstance();
+        current_user = fAuth.getCurrentUser();
+        final String current = current_user.getEmail();
         Toolbar toolbar = findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        doctor =  findViewById(R.id.mydoctor);
-        token =  findViewById(R.id.mytoken);
+        doctor = findViewById(R.id.mydoctor);
+        token = findViewById(R.id.mytoken);
+        progressBar = findViewById(R.id.progressBar5);
 
 
-        String Last_Doctor_name = getIntent().getStringExtra("name");
-        Log.e("name", "123" + Last_Doctor_name);
-        int Last_Token_no = getIntent().getIntExtra("token", 0);
-        Log.e("token", "123" + Last_Token_no);
+        fDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+        fDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    if (current.equals(dataSnapshot1.getValue(User.class).getEmail())) {
+                        String doc = (dataSnapshot1.getValue(User.class).getMy_doctor());
+                        Log.e("dhjj", "pappu" + doc);
+                        int tok = dataSnapshot1.getValue(User.class).getMy_token();
+                        Log.e("dhjj", "pappu" + tok);
 
-        doctor.setText("" + Last_Doctor_name);
+                        doctor.setText(doc);
+                        token.setText(Integer.toString(tok));
+                        progressBar.setVisibility(View.GONE);
+                    }
+                }
+            }
 
-        token.setText("" + ((Last_Token_no)+1));
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-
+            }
+        });
 
 
         recyclerView = findViewById(R.id.token_recycler);
