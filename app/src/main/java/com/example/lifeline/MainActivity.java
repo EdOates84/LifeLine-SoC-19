@@ -3,36 +3,54 @@ package com.example.lifeline;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    private Button btn;
+    TextView name, email, notices;
     private SharedPreferenceConfig preferenceConfig;
     private DrawerLayout drawer;
     public FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction;
     Fragment fragment;
+    FirebaseAuth fAuth;
+    FirebaseUser CurrentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +62,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawer = findViewById(R.id.drawer_layout);
+        fAuth = FirebaseAuth.getInstance();
+        CurrentUser = fAuth.getCurrentUser();
+
 
         NavigationView navigationView = findViewById(R.id.nev_view);
         navigationView.setNavigationItemSelectedListener(this);
+        updateNavHeader();
+
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -60,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
     }
+
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -74,21 +99,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
 
-        }
-        else if (id == R.id.nav_token_status) {
+        } else if (id == R.id.nav_token_status) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
-            startActivity(new Intent(getApplicationContext(),tokenStatusFragment.class));
+            startActivity(new Intent(getApplicationContext(), tokenStatusFragment.class));
 
-        }
-        else if (id == R.id.nav_settings) {
+        } else if (id == R.id.nav_settings) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
-            startActivity(new Intent(getApplicationContext(),SettingsFragment.class));
+            startActivity(new Intent(getApplicationContext(), SettingsFragment.class));
 
 
-        }
-        else if (id == R.id.nav_logout) {
+        } else if (id == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();
             preferenceConfig.writeLoginStatus(false);
             startActivity(new Intent(this, LoginActivity.class));
@@ -101,44 +123,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-        public void onBackPressed () {
+    public void onBackPressed() {
         drawer = findViewById(R.id.drawer_layout);
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
 
-            } else {
-                super.onBackPressed();
-            }
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()) {
-
-            case R.id.sos_btn: {
-
-                View btn = findViewById(R.id.sos_btn);
-                btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String number = "123454568678";
-                        Intent intent = new Intent(Intent.ACTION_CALL);
-                        intent.setData(Uri.parse("tel:" + number));
-                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                            return;
-                        }
-                        startActivity(intent);
-                    }
-                });
-//                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                finish();
-                return true;
-            }
+        } else {
+            super.onBackPressed();
         }
-
-        return super.onOptionsItemSelected(item);
     }
+
+
+    public void updateNavHeader() {
+        NavigationView navigationView = findViewById(R.id.nev_view);
+        View headerView = navigationView.getHeaderView(0);
+//        name =  headerView.findViewById(R.id.profile_name);
+        email = headerView.findViewById(R.id.profile_email);
+//        name.setText(CurrentUser.getDisplayName());
+        email.setText(CurrentUser.getEmail());
+
+
+    }
+
+
 }
 

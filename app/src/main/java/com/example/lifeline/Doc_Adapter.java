@@ -1,7 +1,6 @@
 package com.example.lifeline;
 
 import android.content.Context;
-
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,15 +15,8 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 
 import java.util.ArrayList;
 
@@ -33,27 +25,12 @@ public class Doc_Adapter extends RecyclerView.Adapter<Doc_Adapter.MyViewHolder> 
     private Context context;
     private ArrayList<Doctor> Doctors_List;
     public String DoctorName;
-//    View view1;
-//    RecyclerView.ViewHolder viewHolder1;
 
     public Doc_Adapter(ListOfDoctorsActivity c, ArrayList<Doctor> u) {
         context = c;
         Doctors_List = u;
     }
 
-
-import java.util.List;
-
-public class Doc_Adapter extends RecyclerView.Adapter<Doc_Adapter.MyViewHolder> {
-
-
-    List<Doctor> mylist;
-    Context context;
-
-    public Doc_Adapter(List<Doctor> mylist, Context context) {
-        this.mylist = mylist;
-        this.context = context;
-    }
 
     @NonNull
     @Override
@@ -69,9 +46,6 @@ public class Doc_Adapter extends RecyclerView.Adapter<Doc_Adapter.MyViewHolder> 
         holder.dpt.setText(Doctors_List.get(position).getDoc_dpt());
         holder.name.setText(Doctors_List.get(position).getDoc_name());
         Picasso.with(context).load(Doctors_List.get(position).getDoc_profile()).into(holder.image);
-//        holder.enrollment.setText(users.get(position).getEnrollment());
-//        holder.branch.setText(users.get(position).getBranch());
-
 
         holder.relative.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,11 +54,9 @@ public class Doc_Adapter extends RecyclerView.Adapter<Doc_Adapter.MyViewHolder> 
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 DoctorName = Doctors_List.get(position).getDoc_name();
-                Log.e("DOCTORNAME","YOYOYOYOYO"+DoctorName);
+                Log.e("DOCTORNAME", "YOYOYOYOYO" + DoctorName);
 
                 intent.putExtra("image", Doctors_List.get(position).getDoc_profile());
-
-
                 intent.putExtra("name", Doctors_List.get(position).getDoc_name());
                 intent.putExtra("graduate", Doctors_List.get(position).getDoc_graduate());
                 intent.putExtra("dpt", Doctors_List.get(position).getDoc_dpt());
@@ -92,8 +64,6 @@ public class Doc_Adapter extends RecyclerView.Adapter<Doc_Adapter.MyViewHolder> 
             }
         });
 
-//        Intent intent = new Intent(context, Doc_InfoActivity.class);
-//        context.startActivity(intent);
 
     }
 
@@ -109,42 +79,13 @@ public class Doc_Adapter extends RecyclerView.Adapter<Doc_Adapter.MyViewHolder> 
         RelativeLayout relative;
 
         public MyViewHolder(View itemView) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.doctors_list,parent,false);
-        return new MyViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Doctor doctor = mylist.get(position);
-        holder.name.setText(doctor.getDoc_name());
-        holder.graduate.setText(doctor.getDoc_graduate());
-        holder.dpt.setText(doctor.getDoc_dpt());
-        holder.image.setImageDrawable(context.getResources().getDrawable(doctor.getImg()));
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return mylist.size();
-    }
-
-    class MyViewHolder extends RecyclerView.ViewHolder{
-        ImageView image;
-        TextView name,graduate,dpt;
-
-        public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             image = itemView.findViewById(R.id.image);
             name = itemView.findViewById(R.id.name);
             graduate = itemView.findViewById(R.id.graduate);
             dpt = itemView.findViewById(R.id.dpt);
-
             relative = itemView.findViewById(R.id.relative);
-
-
-
-
         }
     }
 }

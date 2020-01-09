@@ -7,6 +7,7 @@ public class Last_token {
     public Last_token() {
 
     }
+
     public Last_token(int Last_Token_No, String Last_Doctor_name) {
 
         this.Last_Token_No = Last_Token_No;
