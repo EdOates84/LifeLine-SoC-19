@@ -1,19 +1,37 @@
 package com.example.lifeline;
 
 public class User {
-    public String name, email, enrollment, my_doctor;
-    public int my_token;
+    public String name,branch, email, my_doctor;
+    private String  enrollment;
+    public int my_token ;
 
     public User(){
 
     }
 
-    public User(String name, String email, String enrollment,String my_doctor, int my_token) {
+    public User(String name,String branch, String email,String enrollment,String my_doctor, int my_token) {
         this.name = name;
         this.email = email;
         this.enrollment = enrollment;
         this.my_doctor = my_doctor;
         this.my_token = my_token;
+        this.branch = branch;
+    }
+
+    public String getEnrollment() {
+        return enrollment;
+    }
+
+    public void setEnrollment(String enrollment) {
+        this.enrollment = enrollment;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
     }
 
     public String getName() {
@@ -32,13 +50,6 @@ public class User {
         this.email = email;
     }
 
-    public String getEnrollment() {
-        return enrollment;
-    }
-
-    public void setEnrollment(String enrollment) {
-        this.enrollment = enrollment;
-    }
 
     public String getMy_doctor() {
         return my_doctor;
